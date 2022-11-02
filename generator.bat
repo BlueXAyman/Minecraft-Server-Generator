@@ -35,7 +35,7 @@ ECHO Generating 1.8.9 Paper Folder
 if not exist "Server-1.8.9" mkdir Server-1.8.9
 cd Server-1.8.9
 ECHO Downloading paper-1.8.8-445.jar from https://api.papermc.io
-if not exist "eula.txt" curl "https://cdn.xayman.net/admin/eula.txt" --output eula.txt
+if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/1.8.8/builds/445/downloads/paper-1.8.8-445.jar" --output server.jar
 ECHO Preparing Start.bat file
 if not exist "start.bat" curl "https://cdn.xayman.net/admin/start.bat" --output start.bat
 if not exist "\Plugins" mkdir Plugins
