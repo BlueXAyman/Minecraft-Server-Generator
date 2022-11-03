@@ -15,8 +15,6 @@ For 1.19.2 server you need Java 17 - Download [here](https://www.oracle.com/java
 
 - Add every major version
 
-- Make the script download the latest paper version option
-
 - Fix java path comptability for some systems
 
 - Add a customizable start.bat (Ram, Flags, etc.)
