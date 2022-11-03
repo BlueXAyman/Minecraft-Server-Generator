@@ -93,7 +93,7 @@ cd %name%
 ECHO %name% has been created...
 
 curl "https://api.papermc.io/v2/projects/paper/versions/1.19.2/builds/" --output builds.txt
-ECHO Installing JREPL to download latest paper version (REGEX Text processor to pull the latest paper build) & curl "https://cdn.xayman.net/admin/1.19.2/JREPL.bat" --output JREPL.bat
+ECHO Installing JREPL to download latest paper version (REGEX Text processor to pull the latest paper build) & curl "https://raw.githubusercontent.com/BlueXAyman/Minecraft-Server-Generator/main/jrepl.bat" --output JREPL.bat
 setlocal EnableExtensions 
 setlocal EnableDelayedExpansion
 if exist "builds.txt" for /F "tokens=5 delims=-." %%I in ('call "%~dp0jrepl.bat" "\x22" "\r\n" /XSEQ /F "builds.txt" ^| %SystemRoot%\System32\findstr.exe /R /X "paper-1\.19\.2-[0-9][0-9]*\.jar"') do if %%I GTR !MaxNumber! set "MaxNumber=%%I"
