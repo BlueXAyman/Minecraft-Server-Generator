@@ -13,7 +13,7 @@ For 1.19.2 server you need Java 17 - Download [here](https://www.oracle.com/java
 
 # **How To Use**
 
-Make sure you have the [requirements](https://github.com/BlueXAyman/Minecraft-Server-Generator#how-to-use)
+Make sure you have the [requirements](https://github.com/BlueXAyman/Minecraft-Server-Generator#requirements)
 
 Go to [Releases](https://github.com/BlueXAyman/Minecraft-Server-Generator/releases) and download the latest **generator.bat**
 
