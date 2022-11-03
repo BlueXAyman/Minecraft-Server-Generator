@@ -11,6 +11,14 @@ For 1.8.9 server you need Java 8 - Download [here](https://www.oracle.com/java/t
 For 1.19.2 server you need Java 17 - Download [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 
 
+**How To Use**
+
+Make sure you have the requirements (Look above)
+
+Go to [Releases](https://github.com/BlueXAyman/Minecraft-Server-Generator/releases) and download the latest generator.bat
+
+Launch it in the same directory where you want to generate the folders
+
 **To do list (Added things are removed from this list)**
 
 - Add every major version
