@@ -1,6 +1,8 @@
 @ECHO off
-cls
 :start
+cls
+ECHO %error%
+ECHO.
 ::: ======================================================                                                 
 :::            /\                                        
 ::: __  __    /  \     _   _   _ __ ___     __ _   _ __  
@@ -27,10 +29,13 @@ ECHO Type 2 to Generate 1.19.2 Paper Server
 
 set choice=
 set /p choice=Enter: 
-if not '%choice%'=='' set choice=%choice:~0,1%
 if '%choice%'=='1' goto oneeight
 if '%choice%'=='2' goto onenineteen
-ECHO "%choice%" is not valid, try again
+if '%choice%'=='1.8.9' goto oneeight
+if '%choice%'=='1.19.2' goto onenineteen
+if '%choice%'=='1.8' ECHO. & ECHO Gotchu! But you are generating 1.8.9 not 1.8! & goto oneeight
+if '%choice%'=='1.19' ECHO. & ECHO Gotchu! But you are generating 1.19.2 not 1.19! & goto onenineteen
+set error= The choice %choice% you entered is invalid, please either type 1 or 2.
 ECHO.
 goto start
 
@@ -63,11 +68,12 @@ if not '%choice%'=='' set choice=%choice:~0,1%
 if /I '%choice%'=='D' goto delete-one-eight
 if /I '%choice%'=='S' goto last
 if /I '%choice%'=='R' goto oneeight
-ECHO "%choice%" is not valid, try again
+ECHO "%choice%" is not valid, try again (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
 ECHO.
 goto one-eight-exists
 
 :delete-one-eight
+ECHO Deleting %name% in progress...
 @RD /S /Q "%name%"
 goto oneeight
 
@@ -85,8 +91,17 @@ if exist "%name%" goto one-nineteen-exists
 if not exist "%name%" mkdir %name%
 cd %name%
 ECHO %name% has been created...
-ECHO Downloading paper-1.19.2-256.jar from https://api.papermc.io
-if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/1.19.2/builds/256/downloads/paper-1.19.2-256.jar" --output server.jar
+
+curl "https://api.papermc.io/v2/projects/paper/versions/1.19.2/builds/" --output builds.txt
+ECHO Installing JREPL to download latest paper version (REGEX Text processor to pull the latest paper build) & curl "https://cdn.xayman.net/admin/1.19.2/JREPL.bat" --output JREPL.bat
+setlocal EnableExtensions 
+setlocal EnableDelayedExpansion
+if exist "builds.txt" for /F "tokens=5 delims=-." %%I in ('call "%~dp0jrepl.bat" "\x22" "\r\n" /XSEQ /F "builds.txt" ^| %SystemRoot%\System32\findstr.exe /R /X "paper-1\.19\.2-[0-9][0-9]*\.jar"') do if %%I GTR !MaxNumber! set "MaxNumber=%%I"
+ECHO Downloading Paper-1.19.2-%MaxNumber% from https://api.papermc.io
+if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/1.19.2/builds/%MaxNumber%/downloads/paper-1.19.2-%MaxNumber%.jar" --output server.jar
+DEL /s /f "JREPL.bat"
+DEL /s /f "builds.txt"
+
 ECHO Preparing Start.bat file
 if not exist "start.bat" echo "%ProgramFiles%\Java\jdk-17.0.5\bin\java" -jar server.jar --nogui>> start.bat
 if not exist "\Plugins" mkdir Plugins
@@ -99,11 +114,12 @@ if not '%choice%'=='' set choice=%choice:~0,1%
 if /I '%choice%'=='D' goto delete-one-nineteen
 if /I '%choice%'=='S' goto last
 if /I '%choice%'=='R' goto onenineteen
-ECHO "%choice%" is not valid, try again
+ECHO "%choice%" is not valid, try again (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
 ECHO.
 goto one-nineteen-exists
 
 :delete-one-nineteen
+ECHO Deleting %name% in progress...
 @RD /S /Q "%name%"
 goto onenineteen
 
@@ -144,4 +160,7 @@ ECHO Auto Accepting Eula
 if not exist "eula.txt" echo eula=true>> eula.txt
 start.bat
 :end
+ECHO.
+ECHO Thank you for using the script :D 
+ECHO Good bye!
 pause
