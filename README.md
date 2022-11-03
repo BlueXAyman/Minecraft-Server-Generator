@@ -4,14 +4,14 @@ Generates a Paper Minecraft Server with the version of your choice
 
 **This script is built for Windows**
 
-**Requirements**
+# **Requirements**
 
 For 1.8.9 server you need Java 8 - Download [here](https://www.oracle.com/java/technologies/javase/javase8-archive-downloads.html)
 
 For 1.19.2 server you need Java 17 - Download [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
 
 
-**How To Use**
+# **How To Use**
 
 Make sure you have the requirements (Look above)
 
@@ -19,7 +19,7 @@ Go to [Releases](https://github.com/BlueXAyman/Minecraft-Server-Generator/releas
 
 Launch it in the same directory where you want to generate the folders
 
-**To do list (Added things are removed from this list)**
+# **To do list (Added things are removed from this list)**
 
 - Add every major version
 
