@@ -13,9 +13,9 @@ For 1.19.2 server you need Java 17 - Download [here](https://www.oracle.com/java
 
 # **How To Use**
 
-Make sure you have the requirements (Look above)
+Make sure you have the [requirements](https://github.com/BlueXAyman/Minecraft-Server-Generator/edit/main/README.md#requirements)
 
-Go to [Releases](https://github.com/BlueXAyman/Minecraft-Server-Generator/releases) and download the latest generator.bat
+Go to [Releases](https://github.com/BlueXAyman/Minecraft-Server-Generator/releases) and download the latest **generator.bat**
 
 Launch it in the same directory where you want to generate the folders
 
