@@ -148,9 +148,9 @@ if exist "%name%" ECHO.
 if exist "%name%" goto custom-exists
 if not exist "%name%" mkdir %name%
 cd %name%
-ECHO %name% has been created...
-if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/%MaxNumber%/downloads/paper-%version%-%MaxNumber%.jar" --output server.jar
+ECHO Folder "%name%" has been created...
 ECHO Downloading Paper-%version%-%MaxNumber%.jar from https://api.papermc.io
+if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/%MaxNumber%/downloads/paper-%version%-%MaxNumber%.jar" --output server.jar
 DEL /s /f "JREPL.bat"
 DEL /s /f "builds.txt"
 ECHO Preparing Start.bat file
