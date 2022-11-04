@@ -1,7 +1,7 @@
 @ECHO off
 :start
 cls
-ECHO %error%
+
 ECHO.
 ::: ======================================================                                                 
 :::            /\                                        
@@ -14,30 +14,68 @@ ECHO.
 :::           https://github.com/BlueXAyman
 ::: ======================================================
 for /f "delims=: tokens=*" %%A in ('findstr /b ::: "%~f0"') do @echo(%%A
-ECHO.
-ECHO Server Generator Made by BlueXAyman
-ECHO.
+
+:starttwo
 color b
-ECHO NOTE: This script will generate a folder in the same directory as this script file.
 ECHO.
+ECHO ==============================================================================================================
+ECHO         NOTE: This script will generate a folder in the same directory as this script file.
+ECHO ==============================================================================================================
+ECHO.
+goto versionpicker
 
 :: version picker section
 
-
-ECHO Type 1 to Generate 1.8.9 Paper Server
-ECHO Type 2 to Generate 1.19.2 Paper Server
-
+:versionpicker
+ECHO Type the version number you want to download (Example "1.8.9","1.19.2" or "list" for all available versions)
+ECHO.
 set choice=
 set /p choice=Enter: 
-if '%choice%'=='1' goto oneeight
-if '%choice%'=='2' goto onenineteen
+if /I '%choice%'=='list' goto list
+if '%choice%'=='1.8.8' goto oneeight
 if '%choice%'=='1.8.9' goto oneeight
-if '%choice%'=='1.19.2' goto onenineteen
-if '%choice%'=='1.8' ECHO. & ECHO Gotchu! But you are generating 1.8.9 not 1.8! & goto oneeight
-if '%choice%'=='1.19' ECHO. & ECHO Gotchu! But you are generating 1.19.2 not 1.19! & goto onenineteen
-set error= The choice %choice% you entered is invalid, please either type 1 or 2.
+if '%choice%'=='1.19.2' goto customversion
+if '%choice%'=='1.9.4' goto customversion
+if '%choice%'=='1.10.2' goto customversion
+if '%choice%'=='1.11.2' goto customversion
+if '%choice%'=='1.12.2' goto customversion
+if '%choice%'=='1.13.2' goto customversion
+if '%choice%'=='1.14.4' goto customversion
+if '%choice%'=='1.15.2' goto customversion
+if '%choice%'=='1.16.5' goto customversion
+if '%choice%'=='1.17.1' goto customversion
+if '%choice%'=='1.18.2' goto customversion
+
+set border=                            !! !! !! !! !! 
+set error= The version "%choice%" you entered is invalid, type "list" for list of versions.
 ECHO.
-goto start
+goto error
+:error
+cls
+ECHO %border%
+ECHO %error%
+ECHO %border%
+goto starttwo
+
+:: lists section
+
+:list
+ECHO.
+ECHO Lists of available versions:
+ECHO 1.8.8/1.8.9
+ECHO 1.9.4
+ECHO 1.10.2
+ECHO 1.11.2
+ECHO 1.12.2
+ECHO 1.13.2
+ECHO 1.14.4
+ECHO 1.15.2
+ECHO 1.16.5
+ECHO 1.17.1
+ECHO 1.18.2
+ECHO 1.19.2
+ECHO.
+goto versionpicker
 
 :: 1.8.9 section
 
@@ -48,8 +86,10 @@ ECHO What would you like to name the 1.8.9 server folder? (Leave empty for Serve
 set name=
 set /p name=Enter Folder Name: 
 if '%name%'=='' set name=Server-1.8.9
-ECHO Generating 1.8.9 Paper Folder
-if exist "%name%" ECHO The Folder "%name%" already exists.. (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
+ECHO.
+if exist "%name%" ECHO ERROR! The Folder "%name%" already exists.. 
+if exist "%name%" ECHO What would you like to do? (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
+if exist "%name%" ECHO.
 if exist "%name%" goto one-eight-exists
 if not exist "%name%" mkdir %name%
 cd %name%
@@ -77,30 +117,40 @@ ECHO Deleting %name% in progress...
 @RD /S /Q "%name%"
 goto oneeight
 
-:: 1.19.2 section
+:: custom version section
 
-:onenineteen
+:customversion
+
 ECHO.
-ECHO What would you like to name the 1.19.2 server folder? (Leave empty for Server-1.19.2)
-set name=
-set /p name=Enter Folder Name: 
-if '%name%'=='' set name=Server-1.19.2
-ECHO Generating 1.19.2 Paper Folder
-if exist "%name%" ECHO The Folder "%name%" already exists.. (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
-if exist "%name%" goto one-nineteen-exists
-if not exist "%name%" mkdir %name%
-cd %name%
-ECHO %name% has been created...
-
-curl "https://api.papermc.io/v2/projects/paper/versions/1.19.2/builds/" --output builds.txt
-ECHO Installing JREPL to download latest paper version "REGEX Text processor to pull the latest paper build"
+set version=%choice%
+ECHO.
+ECHO Searching for %version% . . .
+ECHO.
+ECHO Installing JREPL to download latest build for %version% "REGEX Text processor"
 curl "https://raw.githubusercontent.com/BlueXAyman/Minecraft-Server-Generator/main/jrepl.bat" --output JREPL.bat
 setlocal EnableExtensions 
 setlocal EnableDelayedExpansion
-timeout /t 1
-if exist "builds.txt" for /F "tokens=5 delims=-." %%I in ('call "jrepl.bat" "\x22" "\r\n" /XSEQ /F "builds.txt" ^| %SystemRoot%\System32\findstr.exe /R /X "paper-1\.19\.2-[0-9][0-9]*\.jar"') do if %%I GTR !MaxNumber! set "MaxNumber=%%I"
-ECHO Downloading Paper-1.19.2-%MaxNumber% from https://api.papermc.io
-if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/1.19.2/builds/%MaxNumber%/downloads/paper-1.19.2-%MaxNumber%.jar" --output server.jar
+curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/" --output builds.txt
+if exist "builds.txt" for /F "tokens=5 delims=-." %%I in ('call "jrepl.bat" "\x22" "\r\n" /XSEQ /F "builds.txt" ^| %SystemRoot%\System32\findstr.exe /R /X "paper-%version%-[0-9][0-9]*\.jar"') do if %%I GTR !MaxNumber! set "MaxNumber=%%I"
+ECHO version %version% latest build is %MaxNumber%
+goto choosenamecustom
+
+:choosenamecustom
+ECHO.
+ECHO What would you like to name the %version% server folder? (Leave empty for Server-%version%)
+set name=
+set /p name=Enter Folder Name: 
+ECHO.
+if '%name%'=='' set name=Server-%version%
+if exist "%name%" ECHO ERROR! The Folder "%name%" already exists.. 
+if exist "%name%" ECHO What would you like to do? (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name) (U=Update Paper and keep data)
+if exist "%name%" ECHO.
+if exist "%name%" goto custom-exists
+if not exist "%name%" mkdir %name%
+cd %name%
+ECHO %name% has been created...
+if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/%MaxNumber%/downloads/paper-%version%-%MaxNumber%.jar" --output server.jar
+ECHO Downloading Paper-%version%-%MaxNumber%.jar from https://api.papermc.io
 DEL /s /f "JREPL.bat"
 DEL /s /f "builds.txt"
 ECHO Preparing Start.bat file
@@ -108,22 +158,36 @@ if not exist "start.bat" echo "%ProgramFiles%\Java\jdk-17.0.5\bin\java" -jar ser
 if not exist "\Plugins" mkdir Plugins
 goto last
 
-:one-nineteen-exists
+:custom-exists
 set choice=
-set /p choice=(D/S/R)?:  
+set /p choice=(D/S/R/U)?:  
 if not '%choice%'=='' set choice=%choice:~0,1%
-if /I '%choice%'=='D' goto delete-one-nineteen
+if /I '%choice%'=='D' goto delete-custom
 if /I '%choice%'=='S' goto last
-if /I '%choice%'=='R' goto onenineteen
+if /I '%choice%'=='R' goto choosenamecustom
+if /I '%choice%'=='U' goto updatecustom
 ECHO "%choice%" is not valid, try again (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
 ECHO.
-goto one-nineteen-exists
+goto custom-exists
 
-:delete-one-nineteen
+:delete-custom
 ECHO Deleting %name% in progress...
 @RD /S /Q "%name%"
 goto onenineteen
 
+:updatecustom
+ECHO. 
+ECHO Updating the server %version% in folder %name% to build:%MaxNumber% in progress...
+ECHO.
+cd %name%
+DEL /s /f "server.jar"
+curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/%MaxNumber%/downloads/paper-%version%-%MaxNumber%.jar" --output server.jar
+ECHO.
+ECHO Update successful
+cd "../"
+ECHO.
+ECHO What would you like to do now? (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name) (U=Update Paper and keep data)
+goto custom-exists
 
 :: start server & eula promt
 
