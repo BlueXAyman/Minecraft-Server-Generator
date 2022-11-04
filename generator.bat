@@ -166,7 +166,7 @@ if /I '%choice%'=='D' goto delete-custom
 if /I '%choice%'=='S' goto last
 if /I '%choice%'=='R' goto choosenamecustom
 if /I '%choice%'=='U' goto updatecustom
-ECHO "%choice%" is not valid, try again (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name)
+ECHO "%choice%" is not valid, try again (D=Delete and regenerate a new folder) (S=Start the existing server) (R=Make a new folder with new name) (U=Update Paper and keep data)
 ECHO.
 goto custom-exists
 
