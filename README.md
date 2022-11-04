@@ -21,7 +21,6 @@ Launch it in the same directory where you want to generate the folders
 
 # **To do list (Added things are removed from this list)**
 
-- Add every major version
 
 - Fix java path comptability for some systems
 
