@@ -132,6 +132,8 @@ setlocal EnableExtensions
 setlocal EnableDelayedExpansion
 curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/" --output builds.txt
 if exist "builds.txt" for /F "tokens=5 delims=-." %%I in ('call "jrepl.bat" "\x22" "\r\n" /XSEQ /F "builds.txt" ^| %SystemRoot%\System32\findstr.exe /R /X "paper-%version%-[0-9][0-9]*\.jar"') do if %%I GTR !MaxNumber! set "MaxNumber=%%I"
+DEL /s /f "JREPL.bat"
+DEL /s /f "builds.txt"
 ECHO version %version% latest build is %MaxNumber%
 goto choosenamecustom
 
@@ -151,8 +153,6 @@ cd %name%
 ECHO Folder "%name%" has been created...
 ECHO Downloading Paper-%version%-%MaxNumber%.jar from https://api.papermc.io
 if not exist "server.jar" curl "https://api.papermc.io/v2/projects/paper/versions/%version%/builds/%MaxNumber%/downloads/paper-%version%-%MaxNumber%.jar" --output server.jar
-DEL /s /f "JREPL.bat"
-DEL /s /f "builds.txt"
 ECHO Preparing Start.bat file
 if not exist "start.bat" echo "%ProgramFiles%\Java\jdk-17.0.5\bin\java" -jar server.jar --nogui>> start.bat
 if not exist "\Plugins" mkdir Plugins
